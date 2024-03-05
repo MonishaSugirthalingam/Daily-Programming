@@ -1,3 +1,4 @@
+
 import java.util.*;
 /* AIM : Problem statement
 You are given two strings 'S' and 'T' of lengths 'N' and 'M' respectively. Find the "Edit Distance" between the strings.
@@ -36,14 +37,7 @@ import java.util.*;
 
 class Main{
     static int min(int[][] a,int i,int j){
-        int min=99999;
-        if(a[i][j-1]<=a[i-1][j]){
-            min=a[i][j-1];
-        }
-        if(min>a[i-1][j-1]){
-            min=a[i-1][j-1];
-        }
-        return min;
+          return Math.min(a[i-1][j-1],Math.min(a[i][j-1],a[i][j-1]));
     }
     static void display(int[][] a,int row,int col){
         
@@ -73,20 +67,20 @@ class Main{
         for(int i=0;i<s2.length()+1;i++){
             a[i][0]=i;
         }
-        //display(a,s2.length()+1,s1.length()+1);
-        //System.out.println();
+        display(a,s2.length()+1,s1.length()+1);
+        System.out.println();
         for(int i=1;i<s2.length()+1;i++){
             for(int j=1;j<s1.length()+1;j++){
                 
                 if(s1.charAt(j-1)==s2.charAt(i-1)){
-                    a[i][j]=0+min(a,i,j);
+                     a[i][j]=a[i-1][j-1];
                 }
                 else{
                     a[i][j]=1+min(a,i,j);
                 }
             }
         }
-        //display(a,s2.length()+1,s1.length()+1);
+        display(a,s2.length()+1,s1.length()+1);
         System.out.println(a[s2.length()][s1.length()]);
     }
 }
