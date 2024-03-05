@@ -32,69 +32,61 @@ Sample Output 2 :
 
 DATE : 04/03/24
 */
-public class Main
-{
-	public static void main(String[] args) {
-		Scanner input=new Scanner(System.in);
-		System.out.print("String1 : ");
-		String s1=input.nextLine();
-		System.out.print("String2 : ");
-		String s2=input.nextLine();
-		
-		//String s1="sunday";
-		//String s2="saturday";
-		HashMap<Character,Integer> str1=new HashMap<>();
-		HashMap<Character,Integer> str2=new HashMap<>();
-		for(int i=0;i<s1.length();i++){
-		    if(!str1.containsKey(s1.charAt(i))){
-		        str1.put(s1.charAt(i),1);
-		    }
-		    else{
-		        str1.put(s1.charAt(i),str1.get(s1.charAt(i))+1);
-		    }
-		}
-		
-		for(int i=0;i<s2.length();i++){
-		    if(!str2.containsKey(s2.charAt(i))){
-		        str2.put(s2.charAt(i),1);
-		    }
-		    else{
-		        str2.put(s2.charAt(i),str2.get(s2.charAt(i))+1);
-		    }
-		}
-		//System.out.println(str1+"\n"+str2);
-		//int count1=0;
-		
-		//for detetion
-		for(int i=0;i<s2.length();i++){
-		    if(!str1.containsKey(s2.charAt(i))){
-		        //count1++;
-		        str2.remove(s2.charAt(i));
-		    }
-		}
-		//System.out.println(count1+" "+str1+" "+str2);
-		//for addition
-		int count2=0;
-		for(int i=0;i<s1.length();i++){
-		    if(!str2.containsKey(s1.charAt(i))){
-		        count2++;
-		        str2.put(s1.charAt(i),1);
-		    }
-		    if(str2.containsKey(s1.charAt(i)) && str1.get(s1.charAt(i))>str2.get(s1.charAt(i)))
-		    {
-		        while(str1.get(s1.charAt(i))>str2.get(s1.charAt(i))){
-		            str2.put(s1.charAt(i),str2.get(s1.charAt(i))+1);
-		            count2++;
-		        }
-		    }
-		    if(str2.containsKey(s1.charAt(i)) && str1.get(s1.charAt(i))<str2.get(s1.charAt(i)))
-		    {
-		        while(str1.get(s1.charAt(i))<str2.get(s1.charAt(i))){
-		            str2.put(s1.charAt(i),str2.get(s1.charAt(i))-1);
-		            count2++;
-		        }
-		    }
-		}
-		System.out.println("Minimum Number of Changes to Make String2 like String1 is : "+count2);
-	}
+import java.util.*;
+
+class Main{
+    static int min(int[][] a,int i,int j){
+        int min=99999;
+        if(a[i][j-1]<=a[i-1][j]){
+            min=a[i][j-1];
+        }
+        if(min>a[i-1][j-1]){
+            min=a[i-1][j-1];
+        }
+        return min;
+    }
+    static void display(int[][] a,int row,int col){
+        
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                System.out.print(a[i][j]);
+            }
+            System.out.println();
+        }
+    }
+    public static void main(String[] args){
+        String s1="whgtdwhgtdg";
+        String s2="aswcfg";
+    
+        int[][] a=new int[s2.length()+1][s1.length()+1];
+        
+        //initialization
+        for(int i=0;i<s2.length()+1;i++){
+            for(int j=0;j<s1.length()+1;j++){
+                a[i][j]=0;
+            }
+        }
+        //base condition
+        for(int j=0;j<s1.length()+1;j++){
+            a[0][j]=j;
+        }
+        for(int i=0;i<s2.length()+1;i++){
+            a[i][0]=i;
+        }
+        //display(a,s2.length()+1,s1.length()+1);
+        //System.out.println();
+        for(int i=1;i<s2.length()+1;i++){
+            for(int j=1;j<s1.length()+1;j++){
+                
+                if(s1.charAt(j-1)==s2.charAt(i-1)){
+                    a[i][j]=0+min(a,i,j);
+                }
+                else{
+                    a[i][j]=1+min(a,i,j);
+                }
+            }
+        }
+        //display(a,s2.length()+1,s1.length()+1);
+        System.out.println(a[s2.length()][s1.length()]);
+    }
 }
